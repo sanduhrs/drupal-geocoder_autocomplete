@@ -1,0 +1,3 @@
+name = Geocoder Autocomplete
+description = Geocoder autocomplete plugin.
+core = 7.x
