@@ -2,27 +2,60 @@
 
 /**
  * @file
- * Geocoder autocomplete widget
  *
  * @author
  * Stefan Auditor <stefan.auditor@erdfisch.de>
  */
 
-define('GEOCODER_AUTOCOMPLETE_URL', 'http://maps.google.com/maps/api/geocode');
-define('GEOCODER_AUTOCOMPLETE_FORMAT', 'json');
+/**
+ * Implements hook_permission().
+ */
+function geocoder_autocomplete_permission() {
+  return array(
+    'access geocoder autocomplete' => array('title' => t('Access <em>Geocoder Autocomplete</em>')),
+  );
+}
 
 /**
  * Implements hook_menu().
  */
 function geocoder_autocomplete_menu() {
   $items['geocoder/autocomplete'] = array(
-    'title' => 'Geocoder autocomplete',
     'page callback' => 'geocoder_autocomplete_autocomplete',
-    'access callback' => TRUE,
+    'access arguments' => array('access geocoder autocomplete'),
     'type' => MENU_CALLBACK,
-    'file' => 'geocoder_autocomplete.pages.inc',
   );
   return $items;
+}
+
+/**
+ * Menu callback.
+ */
+function geocoder_autocomplete_autocomplete($string = '') {
+  $matches = array();
+
+  if ($string !== '') {
+    $query = array(
+      'address' => $string,
+      'language' => $GLOBALS['language']->language,
+      'sensor' => 'false',
+    );
+    $url = 'http://maps.googleapis.com/maps/api/geocode/json?' . drupal_http_build_query($query);
+
+    $response = drupal_http_request($url);
+    if (!$response->error) {
+      $data = json_decode($response->data);
+      if ($data->status == 'OK') {
+        foreach ($data->results as $result) {
+          if (!empty($result->formatted_address)) {
+            $matches[$result->formatted_address] = '<div class="reference-autocomplete">' . check_plain($result->formatted_address) . '</div>';
+          }
+        }
+      }
+    }
+  }
+
+  drupal_json_output($matches);
 }
 
 /**
@@ -31,7 +64,7 @@ function geocoder_autocomplete_menu() {
 function geocoder_autocomplete_field_widget_info() {
   return array(
     'geocoder_autocomplete' => array(
-      'label' => t('Geocoder (autocomplete)'),
+      'label' => t('Geocoder text field with autocomplete'),
       'field types' => array('text'),
     ),
   );
@@ -41,22 +74,16 @@ function geocoder_autocomplete_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function geocoder_autocomplete_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $widget = $element;
-  $widget['#delta'] = $delta;
-
-  switch ($instance['widget']['type']) {
-    case 'geocoder_autocomplete':
-      $widget = $element + array(
-        '#type' => 'textfield',
-        '#default_value' => isset($items[$delta]['value']) ? $items[$delta]['value'] : NULL,
-        '#size' => isset($instance['widget']['settings']['size']) ? $instance['widget']['settings']['size'] : 60,
-        '#maxlength' => $field['settings']['max_length'],
-        '#attributes' => array('class' => array('text-geocoder')),
-        '#autocomplete_path' => 'geocoder/autocomplete',
-      );
-      break;
+  $element += array(
+    '#type' => 'textfield',
+    '#default_value' => isset($items[$delta]['value']) ? $items[$delta]['value'] : NULL,
+    '#size' => 80,
+    '#maxlength' => $field['settings']['max_length'],
+    '#attributes' => array('class' => array('text-geocoder')),
+  );
+  if (user_access('access geocoder autocomplete')) {
+    $element['#autocomplete_path'] = 'geocoder/autocomplete';
   }
 
-  $element['value'] = $widget;
-  return $element;
+  return array('value' => $element);
 }
