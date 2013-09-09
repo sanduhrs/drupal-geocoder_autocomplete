@@ -43,7 +43,7 @@ function geocoder_autocomplete_autocomplete($string = '') {
     $url = 'http://maps.googleapis.com/maps/api/geocode/json?' . drupal_http_build_query($query);
 
     $response = drupal_http_request($url);
-    if (!$response->error) {
+    if (empty($response->error)) {
       $data = json_decode($response->data);
       if ($data->status == 'OK') {
         foreach ($data->results as $result) {
