@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\geocoder_autocomplete\Controller\DefaultController.
+ * Contains \Drupal\geocoder_autocomplete\Controller\GeocoderController.
  */
 
 namespace Drupal\geocoder_autocomplete\Controller;

@@ -6,25 +6,34 @@
 
 namespace Drupal\geocoder_autocomplete;
 
-use Drupal\Core\Url;
 use GuzzleHttp\ClientInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
  * Defines the GeocoderJsonConsumer service, for return parse GeoJson.
  */
 class GeocoderJsonConsumer {
+
   /**
    * Drupal http client.
    *
-   * @var GuzzleHttp\ClientInterface
+   * @var \GuzzleHttp\ClientInterface
    */
   protected $httpClient;
 
   /**
-   * Service contstructor.
+   * Language Manager service.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
    */
-  public function __construct(ClientInterface $http_client) {
+  protected $languageManager;
+
+  /**
+   * Service constructor.
+   */
+  public function __construct(ClientInterface $http_client, LanguageManagerInterface $language_manager) {
     $this->httpClient = $http_client;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -37,7 +46,7 @@ class GeocoderJsonConsumer {
    *   An array of matching location.
    */
   public function getAddress($text) {
-    $language_interface = \Drupal::languageManager()->getCurrentLanguage();
+    $language_interface = $this->languageManager->getCurrentLanguage();
     $language = isset($language_interface) ? $language_interface->getId() : 'en';
 
     $query = [
@@ -46,7 +55,6 @@ class GeocoderJsonConsumer {
       'sensor' => 'false',
     ];
     $uri = 'http://maps.googleapis.com/maps/api/geocode/json';
-    $url  = Url::fromUri($uri, array('query' => $query));
 
     $response = $this->httpClient->request('GET', $uri, [
       'query' => $query,
