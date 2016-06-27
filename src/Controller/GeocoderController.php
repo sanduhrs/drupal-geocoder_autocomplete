@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\geocoder_autocomplete\Controller\GeocoderController.
- */
 
 namespace Drupal\geocoder_autocomplete\Controller;
 
@@ -12,11 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Drupal\geocoder_autocomplete\GeocoderJsonConsumer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
 /**
  * Default controller for the geocoder_autocomplete module.
  */
 class GeocoderController extends ControllerBase {
+
   /**
    * {@inheritdoc}
    */
@@ -25,12 +21,14 @@ class GeocoderController extends ControllerBase {
       $container->get('geocoderautocomplete.consumer')
     );
   }
+
   /**
    * Geocoder service.
    *
    * @var \Drupal\geocoder_autocomplete\GeocoderJsonConsumer
    */
   protected $geocoderService;
+
   /**
    * Constructs a GeocoderController object.
    *
@@ -40,6 +38,7 @@ class GeocoderController extends ControllerBase {
   public function __construct(GeocoderJsonConsumer $geocoder) {
     $this->geocoderService = $geocoder;
   }
+
   /**
    * Callback Method for Route geocoder_autocomplete.autocomplete.
    *

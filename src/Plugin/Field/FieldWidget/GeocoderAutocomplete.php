@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\geocoder_autocomplete\Plugin\Field\FieldWidget\GeocoderAutocomplete.
- */
 
 namespace Drupal\geocoder_autocomplete\Plugin\Field\FieldWidget;
 

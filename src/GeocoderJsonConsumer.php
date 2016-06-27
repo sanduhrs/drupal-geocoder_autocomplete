@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains /Drupal/geocoder_autocomplete/GeocoderJsonConsumer.
- */
 
 namespace Drupal\geocoder_autocomplete;
 
@@ -30,8 +26,16 @@ class GeocoderJsonConsumer {
 
   /**
    * Service constructor.
+   *
+   * @param \GuzzleHttp\ClientInterface $http_client
+   *   The http client.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   The language manager.
    */
-  public function __construct(ClientInterface $http_client, LanguageManagerInterface $language_manager) {
+  public function __construct(
+      ClientInterface $http_client,
+      LanguageManagerInterface $language_manager
+  ) {
     $this->httpClient = $http_client;
     $this->languageManager = $language_manager;
   }
