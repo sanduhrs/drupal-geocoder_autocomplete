@@ -3,9 +3,9 @@
 namespace Drupal\geocoder_autocomplete\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\geocoder_autocomplete\GeocoderJsonConsumer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\geocoder_autocomplete\GeocoderJsonConsumer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
