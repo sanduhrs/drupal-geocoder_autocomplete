@@ -72,7 +72,6 @@ class GeocoderJsonConsumer {
         foreach ($data->results as $result) {
           if (!empty($result->formatted_address)) {
             $formatted_address = $result->formatted_address;
-            // Names containing commas or quotes must be wrapped in quotes.
             $matches[] = array(
               'value' => Html::escape($formatted_address),
               'label' => Html::escape($formatted_address),
