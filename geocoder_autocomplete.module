@@ -20,13 +20,3 @@ function geocoder_autocomplete_help($route_name, \Drupal\Core\Routing\RouteMatch
     default:
   }
 }
-
-/**
- * Form element validate handler for geocoder_autocomplete widget element.
- */
-function geocoder_autocomplete_validate($element, \Drupal\Core\Form\FormStateInterface $form_state) {
-  if ($geocoded_address = $element['#value']) {
-    $geocoded_address_cleaned = trim($geocoded_address, '"');
-    $form_state->setValueForElement($element, $geocoded_address_cleaned);
-  }
-}

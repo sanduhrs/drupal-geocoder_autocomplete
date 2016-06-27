@@ -46,11 +46,26 @@ class GeocoderAutocomplete extends StringTextfieldWidget {
         '#autocomplete_route_parameters' => array(),
         '#placeholder' => $this->getSetting('placeholder'),
         '#maxlength' => 255,
-        '#element_validate' => array('geocoder_autocomplete_validate'),
+        '#element_validate' => array(array(get_class($this), 'validateFormElement')),
       );
     }
 
     return $element;
+  }
+
+  /**
+   * Form element validate handler.
+   *
+   * @param array $element
+   *   The form element to validate.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   */
+  public function validateFormElement($element, FormStateInterface $form_state) {
+    if ($geocoded_address = $element['#value']) {
+      $geocoded_address_cleaned = trim($geocoded_address, '"');
+      $form_state->setValueForElement($element, $geocoded_address_cleaned);
+    }
   }
 
 }
