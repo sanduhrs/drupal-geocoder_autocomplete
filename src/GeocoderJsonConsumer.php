@@ -2,8 +2,9 @@
 
 namespace Drupal\geocoder_autocomplete;
 
-use GuzzleHttp\ClientInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Component\Utility\Html;
+use GuzzleHttp\ClientInterface;
 
 /**
  * Defines the GeocoderJsonConsumer service, for return parse GeoJson.
@@ -72,7 +73,10 @@ class GeocoderJsonConsumer {
           if (!empty($result->formatted_address)) {
             $formatted_address = $result->formatted_address;
             // Names containing commas or quotes must be wrapped in quotes.
-            $matches[] = array('value' => $formatted_address, 'label' => $formatted_address);
+            $matches[] = array(
+              'value' => Html::escape($formatted_address),
+              'label' => Html::escape($formatted_address),
+            );
           }
         }
 
