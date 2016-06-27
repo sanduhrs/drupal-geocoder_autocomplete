@@ -14,6 +14,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class GeocoderController extends ControllerBase {
 
   /**
+   * Geocoder service.
+   *
+   * @var \Drupal\geocoder_autocomplete\GeocoderJsonConsumer
+   */
+  protected $geocoderService;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -21,13 +28,6 @@ class GeocoderController extends ControllerBase {
       $container->get('geocoderautocomplete.consumer')
     );
   }
-
-  /**
-   * Geocoder service.
-   *
-   * @var \Drupal\geocoder_autocomplete\GeocoderJsonConsumer
-   */
-  protected $geocoderService;
 
   /**
    * Constructs a GeocoderController object.
