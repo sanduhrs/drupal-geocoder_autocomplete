@@ -1,3 +1,0 @@
-name = Geocoder Autocomplete
-description = Provides a text field widget with autocomplete via the Google Geocoding API.
-core = 7.x
