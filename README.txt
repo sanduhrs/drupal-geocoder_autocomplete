@@ -10,6 +10,6 @@ INSTALLATION
 1. Install the module the drupal way [1]
 
 2. Go to "Manage fields" and add a new textfield.
-   Select the "Geocoder (autocomplete)" widget.
+   Select the "Geocoder text field with autocomplete" widget.
 
-[1] http://drupal.org/documentation/install/modules-themes/modules-7
+[1] http://drupal.org/documentation/install/modules-themes/modules-8
