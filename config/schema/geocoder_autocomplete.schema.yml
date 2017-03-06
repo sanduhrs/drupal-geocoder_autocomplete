@@ -1,0 +1,9 @@
+field.widget.settings.geocoder_autocomplete:
+  type: mapping
+  mapping:
+    size:
+      type: integer
+    placeholder:
+      type: string
+    autocomplete_route_name:
+      type: string
