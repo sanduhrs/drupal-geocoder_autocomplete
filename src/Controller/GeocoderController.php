@@ -42,7 +42,7 @@ class GeocoderController extends ControllerBase {
   /**
    * Callback Method for Route geocoder_autocomplete.autocomplete.
    *
-   * @param Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    *   The Request sent.
    *
    * @return mixed|string
